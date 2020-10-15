@@ -1,13 +1,13 @@
-import requests
 import json
-import time
+import requests
+
 
 class Parser5ka:
     __params = {
-        'records_per_page': 50
+        'records_per_page': 50,
     }
     __headers = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:81.0) Gecko/20100101 Firefox/81.0'
+        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:81.0) Gecko/20100101 Firefox/81.0',
     }
 
     def __init__(self, start_url):
@@ -18,8 +18,8 @@ class Parser5ka:
             url = self.start_url
         params = self.__params
         while url:
-            response = requests.get(url, params=params, headers = self.__headers)
-            time.sleep(500)
+
+            response = requests.get(url, params=params, headers=self.__headers)
             if params:
                 params = {}
             data: dict = response.json()
@@ -28,10 +28,11 @@ class Parser5ka:
             for product in data['results']:
                 self.save_to_json_file(product)
 
-            def save_to_json_file(self, product: dict):
-                with open(f'products/{product["id"]}.json', 'w', encoding='UTF-8') as file:
-                    json.dump(product, file, ensure_ascii=False)
+    def save_to_json_file(self, product: dict):
+        with open(f'products/{product["id"]}.json', 'w', encoding='UTF-8') as file:
+            json.dump(product, file, ensure_ascii=False)
+
 
 if __name__ == '__main__':
-    parser = Parser5ka('https://5ka.ru/special_offers/')
+    parser = Parser5ka('https://5ka.ru/api/v2/special_offers/')
     parser.parse()
