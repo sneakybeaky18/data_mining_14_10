@@ -1,13 +1,13 @@
 import json
 import requests
-
+import time
 
 class Parser5ka:
     __params = {
         'records_per_page': 50,
     }
     __headers = {
-        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:81.0) Gecko/20100101 Firefox/81.0',
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:81.0) Gecko/20100101 Firefox/81.0',
     }
 
     def __init__(self, start_url):
@@ -18,8 +18,8 @@ class Parser5ka:
             url = self.start_url
         params = self.__params
         while url:
-
             response = requests.get(url, params=params, headers=self.__headers)
+            time.sleep(0.5)
             if params:
                 params = {}
             data: dict = response.json()
